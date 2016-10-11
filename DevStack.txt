@@ -1,0 +1,38 @@
+DevStack Configuration
+
+===================================================
+
+vSchool.id
+
+===================================================
+
+sudo su -
+adduser stack
+sudo passwd stack
+screen -dmS devstack
+screen -x devstack
+sudo apt-get install git
+git clone http://github.com/openstack-dev/devstack
+cd devstack/
+nano local.conf
+
+===================
+[[local|localrc]]
+ADMIN_PASSWORD=secret
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+===================
+
+./stack.sh
+
+ctrl+a + d
+
+OpenStack is up!
+
+    Type http://IP_OPENSTACK in your browser
+    Login as "admin", "password" (or whatever you chose for the password above).
+    Click the "projects" tab
+    Click "Instances and volumes"
+    Click "Launch instance" and give it name "test1"
+    Congratulations, you now have a Linux instance/virtual machine, running within your OpenStack cloud!
