@@ -9,12 +9,11 @@ vSchool.id
 sudo su -
 adduser stack
 sudo passwd stack
-su stack
 sudo apt-get install git
 git clone http://github.com/openstack-dev/devstack
-sudo su
-cd /home/stack/
 devstack/tools/create-stack-user.sh; su stack
+cd /home/stack/
+git clone http://github.com/openstack-dev/devstack
 su stack
 cd devstack/
 nano local.conf
