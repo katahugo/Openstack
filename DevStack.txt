@@ -9,10 +9,13 @@ vSchool.id
 sudo su -
 adduser stack
 sudo passwd stack
-screen -dmS devstack
-screen -x devstack
+su stack
 sudo apt-get install git
 git clone http://github.com/openstack-dev/devstack
+sudo su
+cd /home/stack/
+devstack/tools/create-stack-user.sh; su stack
+su stack
 cd devstack/
 nano local.conf
 
@@ -24,6 +27,8 @@ RABBIT_PASSWORD=$ADMIN_PASSWORD
 SERVICE_PASSWORD=$ADMIN_PASSWORD
 ===================
 
+screen -dmS devstack
+screen -x devstack
 ./stack.sh
 
 ctrl+a + d
@@ -36,3 +41,4 @@ OpenStack is up!
     Click "Instances and volumes"
     Click "Launch instance" and give it name "test1"
     Congratulations, you now have a Linux instance/virtual machine, running within your OpenStack cloud!
+
