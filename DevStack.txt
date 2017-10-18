@@ -6,23 +6,45 @@ vSchool.id
 
 ===================================================
 
-sudo su -
-adduser stack
-sudo passwd stack
-sudo apt-get install git
-git clone http://github.com/openstack-dev/devstack
-devstack/tools/create-stack-user.sh; su stack
-cd /home/stack/
-git clone http://github.com/openstack-dev/devstack
+sudo useradd -s /bin/bash -d /opt/stack -m stack
+echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+sudo su - stack
+git clone https://git.openstack.org/openstack-dev/devstack
 cd devstack/
 nano local.conf
 
 ===================
 [[local|localrc]]
-ADMIN_PASSWORD=secret
-DATABASE_PASSWORD=$ADMIN_PASSWORD
-RABBIT_PASSWORD=$ADMIN_PASSWORD
-SERVICE_PASSWORD=$ADMIN_PASSWORD
+ADMIN_PASSWORD="admin"
+SERVICE_PASSWORD="admin"
+SERVICE_TOKEN="admin"
+MYSQL_PASSWORD="admin"
+RABBIT_TOKEN="admin"
+RABBIT_PASSWORD="admin"
+SWIFT_HASH=s0M3hash1sh3r3
+
+disable_service n-net
+enable_service neutron
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+HOST_IP=10.0.2.15
+enable_service ceilometer-acompute
+enable_service ceilometer-acentral
+enable_service ceilometer-anotification
+enable_service ceilometer-collector
+enable_service ceilometer-alarm-evaluator
+enable_service ceilometer-alarm-notifier
+enable_service ceilometer-api
+
+enable_service heat h-api h-api-cfn h-api-cw h-eng
+enable_service s-proxy s-object s-container s-account
+SWIFT_REPLICAS=1
+
+LOGFILE=/opt/stack/logs/stack.sh.log
+SCREEN_LOGDIR=/opt/stack/logs
 ===================
 
 screen -dmS devstack
